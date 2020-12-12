@@ -13,8 +13,22 @@ class HomeController {
      * @param Application $app Silex application
      */
     public function indexAction(Application $app) {
+        $allLinks = [];
+        $fifteenLinks = [];
+        $index = 1;
+        $limitPage = 15;
         $links = $app['dao.link']->findAll();
-        return $app['twig']->render('index.html.twig', array('links' => $links));
+        $endArray = end($links);
+        foreach ($links as $link){
+            array_push($fifteenLinks, $link);
+            if($index == $limitPage || $link == $endArray) {
+                array_push($allLinks, $fifteenLinks);
+                $index = 0;
+                $fifteenLinks = [];
+            }
+            $index++;
+        }
+        return $app['twig']->render('index.html.twig', array('links' => $allLinks));
     }
 
     /**
