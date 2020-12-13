@@ -12,12 +12,12 @@ class HomeController {
      *
      * @param Application $app Silex application
      */
-    public function indexAction(Application $app) {
+    public function indexAction($page,Application $app) {
         $allLinks = [];
         $links = $app['dao.link']->findAll();
  
         $pageSize = 15;
-        $offset = 0;
+        $offset = $page - 1;
         $nbPages = ceil(count($links) / $pageSize);
         if($offset >= $nbPages){
             $offset = $nbPages-1;
