@@ -4,23 +4,28 @@
 
 {% block content %}
 	<div class="row">
-        {% for tab in links %}
-            <div class="link-page">
-                {% for link in tab %}
-                <div class="col-md-4">
-                    <h2><a class="linkTitle" href="{{ path('link', { 'id': link.id }) }}">{{ link.title }}</a></h2>
-                    <p>{{ link.desc }}</p>
-                    <a href="{{ link.url }}" title="" target="_blank">Open ></a>
-                    <em>(by {{ link.user.username }})</em>
+        <div class="link-page">
+            {% for link in links %}
+            <div class="col-md-4">
+                <h2><a class="linkTitle" href="{{ path('link', { 'id': link.id }) }}">{{ link.title }}</a></h2>
+                <p>{{ link.desc }}</p>
+                <a href="{{ link.url }}" title="" target="_blank">Open ></a>
+                <em>(by {{ link.user.username }})</em>
 
-                    {% for tag in link.tags %}
-                        <a href="{{ path('tag', { 'id': tag.id }) }}" title="Filtrer">
-                            {{ tag.title }}
-                        </a>
-                    {% endfor %}
-                </div>
+                {% for tag in link.tags %}
+                    <a href="{{ path('tag', { 'id': tag.id }) }}" title="Filtrer">
+                        {{ tag.title }}
+                    </a>
                 {% endfor %}
             </div>
-		{% endfor %}
+            {% endfor %}
+        </div>
 	</div>
+    <nav aria-label="Navigation">
+        <ul class="pagination justify-content-center">
+            {% for i in 1..nb_pages%}
+                <li class="page-item {% if i == current_page %}active{% endif %}"><a class="page-link" href="#">{{i}}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
 {% endblock %}
