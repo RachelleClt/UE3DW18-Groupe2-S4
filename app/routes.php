@@ -1,8 +1,5 @@
 <?php
 
-// Home page
-$app->get('/', "Watson\Controller\HomeController::indexAction")->bind('home');
-
 // Detailed info about a link
 $app->match('/link/{id}', "Watson\Controller\HomeController::linkAction")->bind('link');
 
@@ -47,3 +44,6 @@ $app->delete('/api/link/{id}', "Watson\Controller\ApiController::deleteLinkActio
 
 // API : get RSS feed
 $app->get('/feed', "Watson\Controller\ApiController::getFeedAction")->bind('api_feed');
+
+// Home page
+$app->match('/{page}', "Watson\Controller\HomeController::indexAction")->assert('id', '\d+')->value('page', 0)->bind('home');

@@ -12,23 +12,22 @@ class HomeController {
      *
      * @param Application $app Silex application
      */
-    public function indexAction(Application $app) {
+    public function indexAction($page,Application $app) {
         $allLinks = [];
-        $fifteenLinks = [];
-        $index = 1;
-        $limitPage = 15;
         $links = $app['dao.link']->findAll();
-        $endArray = end($links);
-        foreach ($links as $link){
-            array_push($fifteenLinks, $link);
-            if($index == $limitPage || $link == $endArray) {
-                array_push($allLinks, $fifteenLinks);
-                $index = 0;
-                $fifteenLinks = [];
-            }
-            $index++;
+ 
+        $pageSize = 15;
+        $offset = $page - 1;
+        $nbPages = ceil(count($links) / $pageSize);
+        if($offset >= $nbPages){
+            $offset = $nbPages-1;
         }
-        return $app['twig']->render('index.html.twig', array('links' => $allLinks));
+        elseif($offset < 0){
+            $offset = 0;
+        }
+        $allLinks = array_slice($links, $pageSize * $offset, $pageSize);
+
+        return $app['twig']->render('index.html.twig', array('links' => $allLinks, 'nb_pages' => $nbPages, 'current_page' => $offset + 1));
     }
 
     /**
