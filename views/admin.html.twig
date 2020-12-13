@@ -63,6 +63,13 @@
                 {% endfor %}
             </table>
         </div>
+        <nav aria-label="Navigation">
+            <ul class="pagination justify-content-center">
+                {% for i in 1..nb_pages %}
+                    <li class="page-item {% if i == current_page %}active{% endif %}"><a class="page-link" href="{{ path('admin') }}/{{i}}">{{i}}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
         {% else %}
         <div class="alert alert-warning">No links found.</div>
         {% endif %}

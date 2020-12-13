@@ -10,7 +10,7 @@ $app->match('/tag/{id}', "Watson\Controller\HomeController::tagAction")->bind('t
 $app->get('/login', "Watson\Controller\HomeController::loginAction")->bind('login');
 
 // Admin zone
-$app->get('/admin', "Watson\Controller\AdminController::indexAction")->bind('admin');
+$app->get('/admin/{page}', "Watson\Controller\AdminController::indexAction")->assert('id', '\d+')->value('page', 0)->bind('admin');
 
 // Add a new link
 $app->match('/admin/link/add', "Watson\Controller\AdminController::addLinkAction")->bind('admin_link_add');
